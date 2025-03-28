@@ -7,11 +7,17 @@ import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
 
+
+
   useEffect(() => {
     axios.get("http://localhost:3000/api/projects")
       .then(response => setProjects(response.data))
       .catch(error => console.error("Error fetching projects:", error));
   }, []);
+
+  console.log(projects);
+  
+
 
   return (
     <div className="p-6">
@@ -33,7 +39,10 @@ const Dashboard = () => {
                   <FaEye size={20} />
                 </li>
                 <li className="cursor-pointer text-yellow-500 hover:text-yellow-700">
-                  <FaEdit size={20} />
+                  <FaEdit size={20} 
+                  
+                  />
+                  
                 </li>
                 <li className="cursor-pointer text-red-500 hover:text-red-700">
                   <FaTrash size={20} />
