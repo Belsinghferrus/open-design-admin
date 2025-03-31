@@ -27,7 +27,8 @@ const AddProject = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/projects", { ...formData, amenities: formData.amenities.split(",") });
+      await axios.post("http://localhost:4000/api/projects", 
+        { ...formData, amenities: formData.amenities.split(",") });
       navigate("/");
     } catch (error) {
       console.error("Error adding project:", error);

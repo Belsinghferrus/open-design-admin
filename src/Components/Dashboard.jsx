@@ -2,18 +2,26 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
-
+import Search from "./Search";
+import Filter from "./Filter";
+import { useSelector, useDispatch } from "react-redux";
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
 
+  
 
-
-  useEffect(() => {
-    axios.get("http://localhost:3000/api/projects")
-      .then(response => setProjects(response.data))
-      .catch(error => console.error("Error fetching projects:", error));
-  }, []);
+useEffect(() => {
+  const fetchProject = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/api/projects");
+      setProjects(response.data)
+    } catch (error) {
+      console.log("Error fetching Projects in Dashboard", error)
+    }
+  };
+  fetchProject()
+}, [])
 
   console.log(projects);
   
@@ -22,8 +30,14 @@ const Dashboard = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Project Dashboard</h1>
+      {/* T O P  B A R */}
+      <div className="topbar flex flex-row gap-10 space-between items-center mb-4">
+        <Search/>
+        <Filter />
+      </div>
+
+      {/* ADD PROJECT BUTTON */}
       <Link to="/add-project" className="bg-blue-500 text-white px-4 py-2 rounded">Add Project</Link>
-      
       <div className="mt-4">
         {projects.map(project => (
           <div key={project.id} className="border p-4 rounded mb-2 flex justify-between items-center">
