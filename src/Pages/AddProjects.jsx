@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {useDispatch}  from 'react-redux'
+import { addProject } from "../redux/projectSlice";
 
 const AddProject = () => {
   const navigate = useNavigate();
@@ -15,6 +17,8 @@ const AddProject = () => {
     image: null,
   });
 
+
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -24,15 +28,18 @@ const AddProject = () => {
   };
 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await axios.post("http://localhost:4000/api/projects", 
-        { ...formData, amenities: formData.amenities.split(",") });
-      navigate("/");
-    } catch (error) {
-      console.error("Error adding project:", error);
-    }
+    const projectData = {
+      ...formData,
+      amenities: formData.amenities.split(","), 
+    };
+
+    dispatch(addProject(projectData)).then((result) => {
+      if (result.meta.requestStatus === "fulfilled") {
+        navigate("/");
+      }
+    });
   };
 
   

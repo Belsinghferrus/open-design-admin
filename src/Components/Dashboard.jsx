@@ -5,23 +5,19 @@ import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import Search from "./Search";
 import Filter from "./Filter";
 import { useSelector, useDispatch } from "react-redux";
+import { fetchProject, deleteProject } from "../redux/projectSlice";
 
 const Dashboard = () => {
-  const [projects, setProjects] = useState([]);
+  // const [projects, setProjects] = useState([]);
 
-  
+  const dispatch = useDispatch();
+  const { projects, isLoading, error } = useSelector((state) => state.projects);
 
-useEffect(() => {
-  const fetchProject = async () => {
-    try {
-      const response = await axios.get("http://localhost:4000/api/projects");
-      setProjects(response.data)
-    } catch (error) {
-      console.log("Error fetching Projects in Dashboard", error)
-    }
-  };
-  fetchProject()
-}, [])
+  useEffect(() => {
+    dispatch(fetchProject());
+  }, [dispatch]);
+
+
 
   console.log(projects);
   
@@ -49,16 +45,16 @@ useEffect(() => {
             {/* EDIT OPTIONS */}
             <div className="flex items-center justify-end space-x-4 p-4 bg-white ">
               <ul className="flex space-x-6">
-                <li className="cursor-pointer text-blue-500 hover:text-blue-700">
+                <li onClick={() => alert("Coming Soon")} className="cursor-pointer text-blue-500 hover:text-blue-700">
                   <FaEye size={20} />
                 </li>
-                <li className="cursor-pointer text-yellow-500 hover:text-yellow-700">
+                <li onClick={() => alert("Coming Soon")} className="cursor-pointer text-yellow-500 hover:text-yellow-700">
                   <FaEdit size={20} 
                   
                   />
                   
                 </li>
-                <li className="cursor-pointer text-red-500 hover:text-red-700">
+                <li onClick={() => dispatch( deleteProject(project.id))} className="cursor-pointer text-red-500 hover:text-red-700">
                   <FaTrash size={20} />
                 </li>
               </ul>
