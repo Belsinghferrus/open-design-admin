@@ -1,11 +1,19 @@
 import { useState } from "react";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux"
+import { logout } from "../redux/authSlice";
 
 export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  function handleLogout() {
+    dispatch(logout());
+    setDropdownOpen(false);
+    navigate("/login");
+  }
 
   return (
     <header className="bg-blue-600 p-4 shadow-md flex justify-between items-center">
@@ -36,7 +44,7 @@ export default function Header() {
               Logout
             </button>
             <button
-              onClick={handleLogout}
+              onClick={""}
               className="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
             >
               Help
