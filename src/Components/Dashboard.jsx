@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchProject, deleteProject } from "../redux/projectSlice";
 
 const Dashboard = () => {
-  // const [projects, setProjects] = useState([]);
 
   const dispatch = useDispatch();
   const { projects, isLoading, error } = useSelector((state) => state.projects);
@@ -27,7 +26,7 @@ const Dashboard = () => {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Project Dashboard</h1>
       {/* T O P  B A R */}
-      <div className="topbar flex flex-row gap-10 space-between items-center mb-4">
+      <div className="topbar flex flex-row gap-20 space-between items-center mb-4">
         <Search/>
         <Filter />
       </div>

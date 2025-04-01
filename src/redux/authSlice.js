@@ -10,11 +10,14 @@ export const loginUser = createAsyncThunk("auth/loginUser", async (userData, { r
           withCredentials: true
       });
       return response.data;
+      
   } catch (error) {
       console.error("Login error:", error.response?.data || error.message); // Log error details
       return rejectWithValue(error.response?.data || { message: "Unknown error occurred" });
   }
 });
+
+
 
 
 export const registerUser = createAsyncThunk(
@@ -44,6 +47,11 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       localStorage.removeItem("token");
+    },
+    loginSuccess: (state, action) => {
+      state.token = action.payload.token;
+      state.user = action.payload.user;
+      localStorage.setItem("token", action.payload.token);
     },
   },
 
@@ -79,11 +87,12 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      });
+      })
+    
   },
 });
 
 
-export const { logout } = authSlice.actions;
+export const { logout, loginSuccess } = authSlice.actions;
 export default authSlice.reducer;
 
