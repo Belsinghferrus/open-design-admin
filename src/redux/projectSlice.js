@@ -12,12 +12,12 @@ const getAuthHeader = () => ({
 
 export const fetchProject = createAsyncThunk(
   "projects/fetchProjects",
-  async (_, { rejectWithValue }) => {
+  async (filters, { rejectWithValue }) => {
     try {
       const authHeader = getAuthHeader();
-      console.log("🚀 Sending Headers:", authHeader); // Debugging headers
+     const params = new URLSearchParams(filters).toString();
 
-      const response = await axios.get(API_URL, authHeader);
+      const response = await axios.get(`${API_URL}?${params}`, { ...authHeader });
       return response.data;
     } catch (error) {
       console.error("❌ Error Fetching Projects:", error.response?.data || error);

@@ -1,19 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux"
-import { logout } from "../redux/authSlice";
+import {useDispatch, useSelector} from "react-redux"
+import { loginSuccess, loginUser, logout } from "../redux/authSlice";
 
 export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { users, token } = useSelector((state) => state.auth);
+
+  const userName = users?.name || "Guest";
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  console.log(userName);
+  
+
+  useEffect(() => {
+      dispatch(loginUser());
+    }, [dispatch]);
 
   function handleLogout() {
     dispatch(logout());
     setDropdownOpen(false);
     navigate("/login");
   }
+
 
   return (
     <header className="bg-blue-600 p-4 shadow-md flex justify-between items-center">
@@ -27,6 +38,7 @@ export default function Header() {
           onClick={() => setDropdownOpen(!dropdownOpen)}
           className="flex items-center space-x-2 focus:outline-none"
         >
+          
           <img
             src="https://i.pravatar.cc/40" 
             alt="Profile"
